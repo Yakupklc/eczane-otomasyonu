@@ -51,6 +51,7 @@ Eczane Otomasyonu, eczaneler için stok takibi, satış yönetimi ve raporlama i
 eczane-otomasyonu/
 ├── frontend/               # Frontend kodları
 │   ├── public/             # Statik dosyalar
+│   ├── src/                # Kaynak kodları
 │   │   ├── components/     # React bileşenleri
 │   │   ├── context/        # Context API
 │   │   ├── services/       # API servisleri
