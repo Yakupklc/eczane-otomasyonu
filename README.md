@@ -8,13 +8,12 @@ Eczane Otomasyonu, eczaneler için stok takibi, satış yönetimi ve raporlama i
 - Satış İşlemleri: Sepet üzerinden satış yapma
 - Stok Takibi: İlaç stoklarını gerçek zamanlı takip etme
 - Raporlama: Satış raporlarını görüntüleme, filtreleme ve e-posta olarak gönderme
-- Kategori Bazlı Filtreleme: İlaçları kategorilere göre filtreleme
-- Responsive Tasarım: Mobil ve masaüstü cihazlarda sorunsuz çalışma
+- Kategori Bazlı Filtreleme: İlaçları kategorilere göre filtreleme ("Tümü" seçeneği dahil)
 
 ## Kullanılan Teknolojiler
 
 - Frontend: React, Ant Design
-- Backend: Sheet.best
+- Backend: Google Sheets ve Sheet.best API
 - HTTP İstekleri: Axios
 - Tarih İşlemleri: Moment.js
 
@@ -59,3 +58,10 @@ eczane-otomasyonu/
 │   └── vite.config.js      # Vite yapılandırması
 └── README.md               # Proje açıklaması
 ```
+
+## Notlar
+
+- Responsive tasarım kaldırılmıştır.
+- Filtrelemeye "Tümü" seçeneği eklenmiştir.
+- Stok durumuna göre filtreleme kaldırılmıştır.
+- Türkçe karakter optimizasyonu yapılmıştır.
