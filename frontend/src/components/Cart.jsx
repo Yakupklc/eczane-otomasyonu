@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Table, Button, InputNumber, Typography, Card, Tag, Modal, Space, Divider, message, App, Row, Col } from 'antd';
+import { useState } from 'react';
+import { Table, Button, InputNumber, Typography, Tag, Modal, Space, Divider, message, App, Row, Col } from 'antd';
 import { ShoppingCartOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons';
 import { useCart } from '../context/CartContext';
 
@@ -18,19 +18,6 @@ const Cart = ({ onComplete }) => {
   
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { modal } = App.useApp();
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Mobil ekran kontrolü
-  const isMobile = windowWidth < 768;
 
   const handleDeleteItem = (item) => {
     removeFromCart(item.key);
@@ -68,7 +55,6 @@ const Cart = ({ onComplete }) => {
       dataIndex: 'Fiyat',
       key: 'price',
       render: (price) => `${price} ₺`,
-      responsive: ['md'],
     },
     {
       title: 'Miktar',
@@ -79,8 +65,8 @@ const Cart = ({ onComplete }) => {
           max={record.Stock}
           value={record.quantity}
           onChange={(value) => updateQuantity(record.key, value)}
-          style={{ width: isMobile ? '80px' : '100%' }}
-          size={isMobile ? 'small' : 'middle'}
+          style={{ width: '100%' }}
+          size="middle"
         />
       ),
     },
@@ -98,7 +84,7 @@ const Cart = ({ onComplete }) => {
           danger
           icon={<DeleteOutlined />}
           onClick={() => handleDeleteItem(record)}
-          size={isMobile ? 'small' : 'middle'}
+          size="middle"
         />
       ),
     },
@@ -112,24 +98,14 @@ const Cart = ({ onComplete }) => {
     setIsModalVisible(false);
   };
 
-  // Mobil cihazlar için daha kompakt bir tablo ve sayfalama ekle
-  const expandedRowRender = (record) => {
-    return (
-      <div style={{ padding: '8px' }}>
-        <p><strong>Fiyat:</strong> {record.Fiyat} ₺</p>
-        <p><strong>Kategori:</strong> {record.Kategori}</p>
-      </div>
-    );
-  };
-
   return (
     <>
       <Button 
         type="primary" 
         icon={<ShoppingCartOutlined />} 
         onClick={showModal}
-        size={isMobile ? 'middle' : 'large'}
-        style={{ width: isMobile ? '100%' : 'auto' }}
+        size="large"
+        style={{ width: 'auto' }}
       >
         Sepet {cartItems.length > 0 && `(${cartItems.length})`}
       </Button>
@@ -144,7 +120,7 @@ const Cart = ({ onComplete }) => {
         open={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={isMobile ? '95%' : 800}
+        width={800}
         centered
       >
         {cartItems.length === 0 ? (
@@ -160,12 +136,8 @@ const Cart = ({ onComplete }) => {
               rowKey="key"
               pagination={false}
               locale={{ emptyText: 'Sepet boş' }}
-              size={isMobile ? 'small' : 'middle'}
+              size="middle"
               scroll={{ x: 'max-content' }}
-              expandable={isMobile ? {
-                expandedRowRender: expandedRowRender,
-                rowExpandable: () => true,
-              } : undefined}
             />
 
             <Divider />
@@ -176,14 +148,14 @@ const Cart = ({ onComplete }) => {
                   danger
                   icon={<DeleteOutlined />}
                   onClick={handleClearCart}
-                  style={{ width: isMobile ? '100%' : 'auto' }}
+                  style={{ width: 'auto' }}
                 >
                   Sepeti Boşalt
                 </Button>
               </Col>
               
               <Col xs={24} md={12}>
-                <div style={{ textAlign: isMobile ? 'left' : 'right' }}>
+                <div style={{ textAlign: 'right' }}>
                   <Text strong style={{ fontSize: '16px', marginRight: '8px' }}>
                     Toplam: 
                   </Text>
@@ -195,10 +167,10 @@ const Cart = ({ onComplete }) => {
             </Row>
             
             <div style={{ textAlign: 'right', marginTop: '16px' }}>
-              <Space direction={isMobile ? 'vertical' : 'horizontal'} style={{ width: isMobile ? '100%' : 'auto' }}>
+              <Space style={{ width: 'auto' }}>
                 <Button 
                   onClick={handleCancel}
-                  style={{ width: isMobile ? '100%' : 'auto' }}
+                  style={{ width: 'auto' }}
                 >
                   İptal
                 </Button>
@@ -207,7 +179,7 @@ const Cart = ({ onComplete }) => {
                   icon={<CheckOutlined />}
                   loading={loading}
                   onClick={handleCheckout}
-                  style={{ width: isMobile ? '100%' : 'auto' }}
+                  style={{ width: 'auto' }}
                 >
                   Satışı Tamamla
                 </Button>

@@ -104,8 +104,6 @@ const MedicineList = () => {
   };
 
   const getColumns = () => {
-    const isMobile = window.innerWidth < 768;
-    
     const baseColumns = [
       {
         title: 'İlaç Adı',
@@ -131,7 +129,6 @@ const MedicineList = () => {
         render: (category) => (
           <Tag color="blue">{category}</Tag>
         ),
-        responsive: ['md'],
       },
       {
         title: 'Fiyat (₺)',
@@ -159,80 +156,36 @@ const MedicineList = () => {
         title: 'İşlemler',
         key: 'actions',
         render: (_, record) => (
-          isMobile ? (
-            <Space direction="vertical" size="small" style={{ width: '100%' }}>
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={() => addToCart(record)}
-                disabled={record.Stock <= 0}
-                size="small"
-                block
-              >
-                Sepete Ekle
-              </Button>
-              <Button
-                type="default"
-                icon={<PlusOutlined />}
-                onClick={() => openStockModal(record)}
-                size="small"
-                block
-              >
-                Stok Ekle
-              </Button>
-              <Button
-                danger
-                icon={<DeleteOutlined />}
-                onClick={() => openDeleteModal(record)}
-                size="small"
-                block
-              >
-                Sil
-              </Button>
-            </Space>
-          ) : (
-            <Space>
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={() => addToCart(record)}
-                disabled={record.Stock <= 0}
-              >
-                Sepete Ekle
-              </Button>
-              <Button
-                type="default"
-                icon={<PlusOutlined />}
-                onClick={() => openStockModal(record)}
-              >
-                Stok Ekle
-              </Button>
-              <Button
-                danger
-                icon={<DeleteOutlined />}
-                onClick={() => openDeleteModal(record)}
-              >
-                Sil
-              </Button>
-            </Space>
-          )
+          <Space>
+            <Button
+              type="primary"
+              icon={<PlusCircleOutlined />}
+              onClick={() => addToCart(record)}
+              disabled={record.Stock <= 0}
+            >
+              Sepete Ekle
+            </Button>
+            <Button
+              type="default"
+              icon={<PlusOutlined />}
+              onClick={() => openStockModal(record)}
+            >
+              Stok Ekle
+            </Button>
+            <Button
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => openDeleteModal(record)}
+            >
+              Sil
+            </Button>
+          </Space>
         ),
       },
     ];
     
     return baseColumns;
   };
-  
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   return (
     <div style={{ padding: '10px' }}>
@@ -241,14 +194,14 @@ const MedicineList = () => {
           <Title level={4}>İlaç Listesi</Title>
         </Col>
         <Col xs={24} md={12} style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Space direction={windowWidth < 768 ? 'vertical' : 'horizontal'} style={{ width: windowWidth < 768 ? '100%' : 'auto' }}>
+          <Space style={{ width: 'auto' }}>
             <Cart onComplete={fetchMedicines} />
             <Button
               type="primary"
               icon={<SyncOutlined />}
               onClick={fetchMedicines}
               loading={loading}
-              style={{ width: windowWidth < 768 ? '100%' : 'auto' }}
+              style={{ width: 'auto' }}
             >
               Yenile
             </Button>
@@ -278,10 +231,9 @@ const MedicineList = () => {
         pagination={{
           showSizeChanger: true,
           showTotal: (total) => `Toplam ${total} ilaç`,
-          responsive: true,
         }}
         scroll={{ x: 'max-content' }}
-        size={windowWidth < 768 ? 'small' : 'middle'}
+        size="middle"
       />
 
       <Modal
@@ -302,7 +254,7 @@ const MedicineList = () => {
           </Button>,
         ]}
         centered
-        width={windowWidth < 576 ? '95%' : 520}
+        width={520}
       >
         {selectedMedicine && (
           <div>
@@ -338,7 +290,7 @@ const MedicineList = () => {
           </Button>,
         ]}
         centered
-        width={windowWidth < 576 ? '95%' : 520}
+        width={520}
       >
         {medicineToDelete && (
           <div>

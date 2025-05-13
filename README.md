@@ -14,8 +14,7 @@ Eczane Otomasyonu, eczaneler için stok takibi, satış yönetimi ve raporlama i
 ## Kullanılan Teknolojiler
 
 - Frontend: React, Ant Design
-- Backend: Google Sheets, Sheet.best API
-- State Yönetimi: React Context API
+- Backend: Sheet.best
 - HTTP İstekleri: Axios
 - Tarih İşlemleri: Moment.js
 
@@ -60,15 +59,3 @@ eczane-otomasyonu/
 │   └── vite.config.js      # Vite yapılandırması
 └── README.md               # Proje açıklaması
 ```
-
-## Katkıda Bulunma
-
-1. Bu depoyu forklayın
-2. Özellik dalınızı oluşturun (`git checkout -b feature/AmazingFeature`)
-3. Değişikliklerinizi commit edin (`git commit -m 'Add some AmazingFeature'`)
-4. Dalınıza push edin (`git push origin feature/AmazingFeature`)
-5. Bir Pull Request oluşturun
-
-## Lisans
-
-Bu proje MIT lisansı altında lisanslanmıştır. 

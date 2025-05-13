@@ -27,21 +27,6 @@ const SalesReport = () => {
   const [sendingEmail, setSendingEmail] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
-  // Ekran boyutunu dinleme
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Mobil ekran kontrolü
-  const isMobile = windowWidth < 768;
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -241,7 +226,7 @@ const SalesReport = () => {
             locale={locale}
             onChange={handleDateRangeChange}
             placeholder={['Başlangıç', 'Bitiş']}
-            style={{ width: isMobile ? '100%' : 240 }}
+            style={{ width: 240 }}
           />
         );
       case 'month':
@@ -251,7 +236,7 @@ const SalesReport = () => {
             onChange={handleMonthChange}
             picker="month"
             placeholder="Ay Seçin"
-            style={{ width: isMobile ? '100%' : 120 }}
+            style={{ width: 120 }}
           />
         );
       case 'year':
@@ -261,7 +246,7 @@ const SalesReport = () => {
             onChange={handleYearChange}
             picker="year"
             placeholder="Yıl Seçin"
-            style={{ width: isMobile ? '100%' : 100 }}
+            style={{ width: 100 }}
           />
         );
       default:
@@ -553,18 +538,6 @@ const SalesReport = () => {
     );
   };
 
-  // Tablo kolonlarını ekran boyutuna göre ayarla
-  const getResponsiveColumns = () => {
-    const columns = getColumns();
-    
-    if (isMobile) {
-      // Mobil cihazlar için sadece önemli kolonları göster
-      return columns.filter(column => !column.responsive || (column.responsive && column.responsive.includes('sm')));
-    }
-    
-    return columns;
-  };
-
   return (
     <div style={{ padding: '10px' }}>
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
@@ -573,9 +546,9 @@ const SalesReport = () => {
         </Col>
         <Col xs={24} sm={12}>
           <Space 
-            direction={isMobile ? 'vertical' : 'horizontal'} 
+            direction="horizontal" 
             size="middle" 
-            style={{ width: '100%', justifyContent: isMobile ? 'flex-start' : 'flex-end', display: 'flex' }}
+            style={{ width: '100%', justifyContent: 'flex-end', display: 'flex' }}
           >
             <Select
               showSearch
@@ -583,17 +556,17 @@ const SalesReport = () => {
               placeholder="İlaç Adı Ara"
               optionFilterProp="label"
               onChange={(value) => setSearchMedicine(value || '')}
-              style={{ width: isMobile ? '100%' : 180 }}
+              style={{ width: 180 }}
               options={medicineOptions}
               filterOption={(input, option) =>
                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
               }
             />
-            <Space.Compact style={{ width: isMobile ? '100%' : 'auto', display: 'flex' }}>
+            <Space.Compact style={{ width: 'auto', display: 'flex' }}>
               <Select 
                 value={dateFilterType}
                 onChange={handleDateFilterTypeChange}
-                style={{ width: isMobile ? '40%' : 120 }}
+                style={{ width: 120 }}
               >
                 <Option value="range">Tarih Aralığı</Option>
                 <Option value="month">Aya Göre</Option>
@@ -603,7 +576,7 @@ const SalesReport = () => {
             </Space.Compact>
             <Select 
               defaultValue="all" 
-              style={{ width: isMobile ? '100%' : 180 }} 
+              style={{ width: 180 }} 
               onChange={(value) => setReportType(value)}
             >
               <Option value="all">Tüm Satışlar</Option>
@@ -667,16 +640,14 @@ const SalesReport = () => {
             </span>
           </div>
         )}
-        columns={getResponsiveColumns()}
+        columns={getColumns()}
         dataSource={filteredSales}
         loading={loading}
         pagination={{ 
-          pageSize: 10,
-          responsive: true,
-          size: isMobile ? 'small' : 'default'
+          pageSize: 10
         }}
         scroll={{ x: 'max-content' }}
-        size={isMobile ? 'small' : 'middle'}
+        size="middle"
         summary={() => (
           <Table.Summary>
             <Table.Summary.Row>
@@ -706,7 +677,7 @@ const SalesReport = () => {
           type="primary" 
           icon={<FilePdfOutlined />} 
           onClick={openReportModal}
-          style={{ marginRight: 8, width: isMobile ? '100%' : 'auto' }}
+          style={{ marginRight: 8, width: 'auto' }}
         >
           Rapor Oluştur
         </Button>
@@ -717,7 +688,7 @@ const SalesReport = () => {
         title="Satış Raporu"
         open={reportModalVisible}
         onCancel={() => setReportModalVisible(false)}
-        width={isMobile ? '95%' : 800}
+        width={800}
         centered
         footer={[
           <Button key="cancel" onClick={() => setReportModalVisible(false)}>
@@ -747,7 +718,7 @@ const SalesReport = () => {
           }
         }}
         footer={null}
-        width={isMobile ? '95%' : 520}
+        width={520}
         centered
       >
         {emailSent ? (
@@ -792,11 +763,11 @@ const SalesReport = () => {
             </Form.Item>
             
             <Form.Item style={{ textAlign: 'right', marginBottom: 0 }}>
-              <Space direction={isMobile ? 'vertical' : 'horizontal'} style={{ width: isMobile ? '100%' : 'auto' }}>
+              <Space direction="horizontal" style={{ width: 'auto' }}>
                 <Button
                   type="default"
                   onClick={() => setEmailModalVisible(false)}
-                  style={{ marginRight: isMobile ? 0 : 8, width: isMobile ? '100%' : 'auto' }}
+                  style={{ marginRight: 8, width: 'auto' }}
                   disabled={sendingEmail}
                 >
                   İptal
@@ -806,7 +777,7 @@ const SalesReport = () => {
                   htmlType="submit" 
                   icon={<SendOutlined />} 
                   loading={sendingEmail}
-                  style={{ width: isMobile ? '100%' : 'auto' }}
+                  style={{ width: 'auto' }}
                 >
                   Gönder
                 </Button>

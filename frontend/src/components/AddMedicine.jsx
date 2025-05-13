@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Form, Input, Button, Select, InputNumber, Typography, message, Card, Space, Row, Col } from 'antd';
 import { MedicineBoxOutlined, TagOutlined, DollarOutlined, InboxOutlined } from '@ant-design/icons';
 import { addMedicine } from '../services/SheetAPI';
@@ -9,19 +9,6 @@ const { Option } = Select;
 const AddMedicine = ({ onSuccess }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Mobil ekran kontrolü
-  const isMobile = windowWidth < 768;
 
   const categories = [
     'Agri Kesici',
@@ -68,7 +55,7 @@ const AddMedicine = ({ onSuccess }) => {
         borderRadius: '8px', 
         boxShadow: '0 1px 5px rgba(0,0,0,0.1)',
         width: '100%',
-        padding: isMobile ? '10px' : '20px'
+        padding: '20px'
       }}
     >
       <Title level={4} style={{ marginBottom: '24px' }}>
@@ -153,7 +140,7 @@ const AddMedicine = ({ onSuccess }) => {
             htmlType="submit"
             icon={<MedicineBoxOutlined />}
             loading={loading}
-            size={isMobile ? 'middle' : 'large'}
+            size="large"
             block
           >
             İlaç Ekle
