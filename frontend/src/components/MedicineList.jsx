@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Table, Typography, Button, Input, Select, message, Tag, Space, Modal, InputNumber, Popconfirm, Row, Col } from 'antd';
+import { Table, Typography, Button, Input, Select, message, Tag, Space, Modal, InputNumber, Row, Col } from 'antd';
 import { 
   SearchOutlined, 
   SyncOutlined, 
   PlusCircleOutlined,
-  AppstoreOutlined,
   PlusOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined
@@ -14,7 +13,6 @@ import { useCart } from '../context/CartContext';
 import Cart from './Cart';
 
 const { Title } = Typography;
-const { Option } = Select;
 
 const MedicineList = () => {
   const [medicines, setMedicines] = useState([]);
@@ -29,17 +27,15 @@ const MedicineList = () => {
   const [medicineToDelete, setMedicineToDelete] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
-  // İlaçları getir
   const fetchMedicines = async () => {
     try {
       setLoading(true);
       const data = await getMedicines();
       
-      // Her ilaca bir indeks ekle (daha sonra güncellemelerde kullanmak için)
       const processedData = data.map((medicine, index) => ({
         ...medicine,
         key: index,
-        Stock: parseInt(medicine.Stock) || 0, // String'i sayıya çevir
+        Stock: parseInt(medicine.Stock) || 0,
       }));
       
       setMedicines(processedData);
@@ -55,20 +51,16 @@ const MedicineList = () => {
     fetchMedicines();
   }, []);
 
-  // Stok ekleme işlemi
   const handleAddStock = async () => {
     try {
       setAddingStock(true);
       
-      // Özelleştirilmiş addStock fonksiyonunu kullan
       await addStock(selectedMedicine.key, stockToAdd);
       
       message.success(`${selectedMedicine['Ilac Adi']} için ${stockToAdd} adet stok eklendi`);
       
-      // İlaç listesini yenile
       await fetchMedicines();
       
-      // Modalı kapat ve değerleri sıfırla
       setStockModalVisible(false);
       setSelectedMedicine(null);
       setStockToAdd(1);
@@ -80,20 +72,17 @@ const MedicineList = () => {
     }
   };
 
-  // Stok ekleme modalını aç
   const openStockModal = (medicine) => {
     setSelectedMedicine(medicine);
     setStockToAdd(1);
     setStockModalVisible(true);
   };
 
-  // İlaç silme modalını aç
   const openDeleteModal = (medicine) => {
     setMedicineToDelete(medicine);
     setDeleteModalVisible(true);
   };
 
-  // İlaç silme işlemi
   const handleDeleteMedicine = async () => {
     try {
       setDeleting(true);
@@ -102,10 +91,8 @@ const MedicineList = () => {
       
       message.success(`${medicineToDelete['Ilac Adi']} başarıyla silindi`);
       
-      // İlaç listesini yenile
       await fetchMedicines();
       
-      // Modalı kapat
       setDeleteModalVisible(false);
       setMedicineToDelete(null);
     } catch (error) {
@@ -116,9 +103,7 @@ const MedicineList = () => {
     }
   };
 
-  // Tablo kolonları
   const getColumns = () => {
-    // Ekran genişliğini kontrol et
     const isMobile = window.innerWidth < 768;
     
     const baseColumns = [
@@ -238,7 +223,6 @@ const MedicineList = () => {
     return baseColumns;
   };
   
-  // Ekran boyutunu dinleme
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   
   useEffect(() => {
@@ -300,7 +284,6 @@ const MedicineList = () => {
         size={windowWidth < 768 ? 'small' : 'middle'}
       />
 
-      {/* Stok Ekleme Modalı */}
       <Modal
         title={selectedMedicine ? `${selectedMedicine['Ilac Adi']} - Stok Ekle` : 'Stok Ekle'}
         open={stockModalVisible}
@@ -336,7 +319,6 @@ const MedicineList = () => {
         )}
       </Modal>
 
-      {/* İlaç Silme Onay Modalı */}
       <Modal
         title="İlaç Silme İşlemi"
         open={deleteModalVisible}

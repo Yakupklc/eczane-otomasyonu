@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Table, Button, InputNumber, Typography, Card, Tag, Modal, Space, Divider, message, App, Row, Col } from 'antd';
-import { ShoppingCartOutlined, DeleteOutlined, ExclamationCircleOutlined, CheckOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons';
 import { useCart } from '../context/CartContext';
 
 const { Title, Text } = Typography;

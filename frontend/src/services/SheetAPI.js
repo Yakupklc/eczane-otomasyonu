@@ -18,12 +18,10 @@ export const getMedicines = async () => {
 // Satış raporlarını getir
 export const getSalesReports = async () => {
   try {
-    // Sheet.best API'sinde farklı bir sekmeye erişmek için /tabs/ kullanılır (/tab/ değil)
     const response = await axios.get(SALES_API_URL);
-    return response.data || []; // Eğer veri yoksa boş dizi döndür
+    return response.data || []; 
   } catch (error) {
     console.error('Satış raporları getirilirken hata oluştu:', error);
-    // Test amaçlı örnek veri döndürelim (gerçek uygulama için kaldırılabilir)
     return [
       {
         Tarih: "2023-05-10",
@@ -80,40 +78,33 @@ export const updateMedicine = async (rowIndex, updatedFields) => {
   try {
     console.log(`Güncelleniyor: Satır ${rowIndex}, Yeni değerler:`, updatedFields);
     
-    // Bütün ilaçları getir
     const medicines = await getMedicines();
-    
-    // Güncellenecek ilacı bul
     const medicineToUpdate = medicines[rowIndex];
     
     if (!medicineToUpdate) {
       throw new Error(`${rowIndex} indeksinde ilaç bulunamadı`);
     }
     
-    // İlaç ID'sini al
     const medicineId = medicineToUpdate['Ilac Adi'];
     
     if (!medicineId) {
       throw new Error('İlaç ID bulunamadı');
     }
     
-    // Mevcut tüm verileri koru, sadece güncellenecek alanları değiştir
     const updatedData = {
       'Ilac Adi': medicineToUpdate['Ilac Adi'],
       'Kategori': medicineToUpdate['Kategori'],
       'Fiyat': medicineToUpdate['Fiyat'],
       'Stock': medicineToUpdate['Stock'],
-      ...updatedFields // Güncellenecek alanlar
+      ...updatedFields
     };
     
     console.log('Güncellenecek veri:', updatedData);
     
-    // Filtreleme ölçütü olarak ilaç adını kullan
     const updateURL = `${SHEET_API_URL}/query?Ilac+Adi=${encodeURIComponent(medicineId)}`;
     
     console.log('Güncelleme URL:', updateURL);
     
-    // İlacı güncelle
     const response = await axios.put(updateURL, updatedData);
     console.log('Güncelleme yanıtı:', response.data);
     
@@ -127,8 +118,6 @@ export const updateMedicine = async (rowIndex, updatedFields) => {
 // Kullanıcı doğrulama için
 export const getUsers = async () => {
   try {
-    // Doğrudan kullanıcı verilerini manuel olarak döndürelim
-    // Gerçek API çağrısı çalışmadığı için bu geçici bir çözüm
     return [
       {
         kullanici_adi: "admin",
@@ -136,11 +125,6 @@ export const getUsers = async () => {
         rol: "eczaci"
       }
     ];
-    
-    // API çağrısı - şu an devre dışı
-    // const response = await axios.get(`${SHEET_API_URL}/tab/kullanicilar`);
-    // console.log("Kullanıcılar API yanıtı:", response.data);
-    // return response.data;
   } catch (error) {
     console.error('Kullanıcılar getirilirken hata oluştu:', error);
     throw error;
@@ -150,23 +134,16 @@ export const getUsers = async () => {
 // Stok ekleme fonksiyonu (Özelleştirilmiş)
 export const addStock = async (rowIndex, quantityToAdd) => {
   try {
-    // Bütün ilaçları getir
     const medicines = await getMedicines();
-    
-    // Stok eklenecek ilacı bul
     const medicine = medicines[rowIndex];
     
     if (!medicine) {
       throw new Error(`${rowIndex} indeksinde ilaç bulunamadı`);
     }
     
-    // Mevcut stok miktarını al ve sayıya çevir
     const currentStock = parseInt(medicine.Stock) || 0;
-    
-    // Yeni stok miktarını hesapla
     const newStock = currentStock + parseInt(quantityToAdd);
     
-    // Stok güncelleme
     return await updateMedicine(rowIndex, {
       'Stock': newStock.toString()
     });
@@ -179,29 +156,23 @@ export const addStock = async (rowIndex, quantityToAdd) => {
 // İlaç silme fonksiyonu
 export const deleteMedicine = async (rowIndex) => {
   try {
-    // Bütün ilaçları getir
     const medicines = await getMedicines();
-    
-    // Silinecek ilacı bul
     const medicineToDelete = medicines[rowIndex];
     
     if (!medicineToDelete) {
       throw new Error(`${rowIndex} indeksinde ilaç bulunamadı`);
     }
     
-    // İlaç ID'sini al
     const medicineId = medicineToDelete['Ilac Adi'];
     
     if (!medicineId) {
       throw new Error('İlaç ID bulunamadı');
     }
     
-    // Silme URL'sini oluştur
     const deleteURL = `${SHEET_API_URL}/query?Ilac+Adi=${encodeURIComponent(medicineId)}`;
     
     console.log('Silme URL:', deleteURL);
     
-    // İlacı sil (DELETE isteği gönderiyor)
     const response = await axios.delete(deleteURL);
     console.log('Silme yanıtı:', response.data);
     

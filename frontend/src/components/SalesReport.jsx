@@ -8,7 +8,7 @@ import locale from 'antd/es/date-picker/locale/tr_TR';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
-const { RangePicker, MonthPicker, YearPicker } = DatePicker;
+const { RangePicker} = DatePicker;
 
 const SalesReport = () => {
   const [salesData, setSalesData] = useState([]);
