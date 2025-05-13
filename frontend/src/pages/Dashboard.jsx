@@ -20,15 +20,6 @@ const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { token } = theme.useToken();
 
-  // Uyumlu renkler
-  const colors = {
-    primary: token.colorPrimary,
-    siderBackground: '#4FBDBA', // Turkuaz tonunda arka plan
-    menuBackground: '#45A29E', // Biraz daha koyu turkuaz
-    menuItemHover: '#6FDFDF', // Daha açık turkuaz
-    textColor: 'white'
-  };
-
   useEffect(() => {
     if (!currentUser) {
       // Kullanıcı giriş yapmamışsa, ana sayfa yerine giriş sayfasına yönlendir
@@ -69,7 +60,7 @@ const Dashboard = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          background: colors.primary,
+          background: token.colorPrimary,
           padding: '0 24px',
         }}
       >
@@ -116,20 +107,11 @@ const Dashboard = () => {
           collapsible
           collapsed={collapsed}
           onCollapse={(value) => setCollapsed(value)}
-          style={{ 
-            background: colors.siderBackground,
-          }}
         >
           <Menu
             mode="inline"
             selectedKeys={[currentView]}
-            style={{ 
-              height: '100%', 
-              borderRight: 0,
-              background: colors.menuBackground,
-              color: colors.textColor
-            }}
-            theme="dark"
+            style={{ height: '100%', borderRight: 0 }}
             items={[
               {
                 key: 'list',
