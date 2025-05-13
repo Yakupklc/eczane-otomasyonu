@@ -507,28 +507,45 @@ const SalesReport = () => {
           pagination={false}
           size="small"
           style={{ marginBottom: 20 }}
-          summary={() => (
-            <Table.Summary>
-              <Table.Summary.Row>
-                <Table.Summary.Cell index={0} colSpan={reportType === 'all' ? 4 : 2}>
-                  <Text strong>Toplam</Text>
-                </Table.Summary.Cell>
-                {reportType === 'all' && (
-                  <>
+          summary={() => {
+            if (reportType === 'all') {
+              return (
+                <Table.Summary>
+                  <Table.Summary.Row>
+                    <Table.Summary.Cell index={0} colSpan={3}>
+                      <Text strong>Toplam</Text>
+                    </Table.Summary.Cell>
                     <Table.Summary.Cell index={1}>
+                      <Text strong>{totalQuantity}</Text>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell index={2}>
                       <Text strong>-</Text>
                     </Table.Summary.Cell>
-                  </>
-                )}
-                <Table.Summary.Cell index={2}>
-                  <Text strong>{totalQuantity}</Text>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell index={3}>
-                  <Text strong>{totalSales.toFixed(2)} ₺</Text>
-                </Table.Summary.Cell>
-              </Table.Summary.Row>
-            </Table.Summary>
-          )}
+                    <Table.Summary.Cell index={3}>
+                      <Text strong>{totalSales.toFixed(2)} ₺</Text>
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                </Table.Summary>
+              );
+            } else if (reportType === 'daily' || reportType === 'category' || reportType === 'medicine') {
+              return (
+                <Table.Summary>
+                  <Table.Summary.Row>
+                    <Table.Summary.Cell index={0} colSpan={2}>
+                      <Text strong>Toplam</Text>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell index={1}>
+                      <Text strong>{totalQuantity}</Text>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell index={2}>
+                      <Text strong>{totalSales.toFixed(2)} ₺</Text>
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                </Table.Summary>
+              );
+            }
+            return null;
+          }}
         />
         
         <div style={{ marginTop: 30, textAlign: 'right' }}>
@@ -648,28 +665,45 @@ const SalesReport = () => {
         }}
         scroll={{ x: 'max-content' }}
         size="middle"
-        summary={() => (
-          <Table.Summary>
-            <Table.Summary.Row>
-              <Table.Summary.Cell index={0} colSpan={reportType === 'all' ? 4 : 2}>
-                <Text strong>Toplam</Text>
-              </Table.Summary.Cell>
-              {reportType === 'all' && (
-                <>
+        summary={() => {
+          if (reportType === 'all') {
+            return (
+              <Table.Summary>
+                <Table.Summary.Row>
+                  <Table.Summary.Cell index={0} colSpan={3}>
+                    <Text strong>Toplam</Text>
+                  </Table.Summary.Cell>
                   <Table.Summary.Cell index={1}>
+                    <Text strong>{totalQuantity}</Text>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={2}>
                     <Text strong>-</Text>
                   </Table.Summary.Cell>
-                </>
-              )}
-              <Table.Summary.Cell index={2}>
-                <Text strong>{totalQuantity}</Text>
-              </Table.Summary.Cell>
-              <Table.Summary.Cell index={3}>
-                <Text strong>{totalSales.toFixed(2)} ₺</Text>
-              </Table.Summary.Cell>
-            </Table.Summary.Row>
-          </Table.Summary>
-        )}
+                  <Table.Summary.Cell index={3}>
+                    <Text strong>{totalSales.toFixed(2)} ₺</Text>
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              </Table.Summary>
+            );
+          } else if (reportType === 'daily' || reportType === 'category' || reportType === 'medicine') {
+            return (
+              <Table.Summary>
+                <Table.Summary.Row>
+                  <Table.Summary.Cell index={0} colSpan={2}>
+                    <Text strong>Toplam</Text>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={1}>
+                    <Text strong>{totalQuantity}</Text>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={2}>
+                    <Text strong>{totalSales.toFixed(2)} ₺</Text>
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              </Table.Summary>
+            );
+          }
+          return null;
+        }}
       />
 
       <div style={{ textAlign: 'right', marginTop: 16 }}>
