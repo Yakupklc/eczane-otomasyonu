@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Form, Input, Button, Card, Typography, Alert, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useAuth } from '../context/AuthContext';
@@ -9,6 +9,7 @@ const Login = () => {
   const { login, loading, error } = useAuth();
   const [form] = Form.useForm();
   const [localError, setLocalError] = useState('');
+  const passwordRef = useRef(null);
 
   const onFinish = async (values) => {
     try {
@@ -22,6 +23,10 @@ const Login = () => {
       setLocalError('Giriş yapılırken bir hata oluştu');
       console.error('Login error:', err);
     }
+  };
+
+  const handleUsernameEnter = () => {
+    passwordRef.current?.focus();
   };
 
   return (
@@ -69,6 +74,7 @@ const Login = () => {
               prefix={<UserOutlined />} 
               placeholder="Kullanıcı Adı" 
               size="large"
+              onPressEnter={handleUsernameEnter}
             />
           </Form.Item>
 
@@ -80,6 +86,7 @@ const Login = () => {
               prefix={<LockOutlined />}
               placeholder="Şifre"
               size="large"
+              ref={passwordRef}
             />
           </Form.Item>
 
