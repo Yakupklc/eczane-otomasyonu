@@ -45,7 +45,7 @@ const Login = () => {
         }}
       >
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
-          <Title level={2}>Eczane Otomasyonu</Title>
+          <Title level={2}>Pharmatik</Title>
           <Title level={4}>Giriş Yap</Title>
         </div>
 
