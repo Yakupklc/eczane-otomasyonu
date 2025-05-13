@@ -8,7 +8,7 @@ Eczane Otomasyonu, eczaneler için stok takibi, satış yönetimi ve raporlama i
 - Satış İşlemleri: Sepet üzerinden satış yapma
 - Stok Takibi: İlaç stoklarını gerçek zamanlı takip etme
 - Raporlama: Satış raporlarını görüntüleme, filtreleme ve e-posta olarak gönderme
-- Kategori Bazlı Filtreleme: İlaçları kategorilere göre filtreleme ("Tümü" seçeneği dahil)
+- Kategori Bazlı Filtreleme: İlaçları kategorilere göre filtreleme
 
 ## Kullanılan Teknolojiler
 
