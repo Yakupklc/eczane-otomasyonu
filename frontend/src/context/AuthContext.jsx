@@ -12,6 +12,10 @@ export const AuthProvider = ({ children }) => {
 
   // LocalStorage'dan kullanıcı bilgisini kontrol et
   useEffect(() => {
+    // Geliştirme aşamasında otomatik giriş yapmayı engellemek için
+    // localStorage'ı temizle (Bu satırı production'da kaldırın)
+    localStorage.removeItem('currentUser');
+    
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
       setCurrentUser(JSON.parse(storedUser));
