@@ -1,18 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Layout, Menu, Button, Typography, theme, message } from 'antd';
-import {
-  MedicineBoxOutlined,
-  PlusOutlined,
-  LogoutOutlined,
-  FileTextOutlined,
-} from '@ant-design/icons';
+import { Layout, message, theme } from 'antd';
 import { useAuth } from '../context/AuthContext';
-import MedicineList from '../components/MedicineList';
-import AddMedicine from '../components/AddMedicine';
-import SalesReport from '../components/SalesReport';
-
-const { Header, Content, Sider } = Layout;
-const { Title } = Typography;
+import { MedicineList, AddMedicine } from '../components/medicine';
+import { SalesReport } from '../components/sales';
+import { AppHeader, SideMenu, ContentWrapper } from '../components/ui';
 
 const Dashboard = () => {
   const { currentUser, logout } = useAuth();
@@ -55,98 +46,22 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          background: token.colorPrimary,
-          padding: '0 24px',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{ 
-            width: 40, 
-            height: 40, 
-            marginRight: 12, 
-            background: '#fff', 
-            borderRadius: '50%',
-            overflow: 'hidden',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <img 
-              src="/images/logo.png" 
-              alt="Pharmatik Logo" 
-              style={{ 
-                maxWidth: '100%', 
-                maxHeight: '100%',
-                objectFit: 'cover' 
-              }} 
-            />
-          </div>
-          <Title level={4} style={{ margin: 0, color: 'white' }}>
-            Pharmatik
-          </Title>
-        </div>
-        <div>
-          <Button
-            type="text"
-            icon={<LogoutOutlined />}
-            onClick={handleLogout}
-            style={{ color: 'white' }}
-          >
-            Çıkış Yap
-          </Button>
-        </div>
-      </Header>
+      <AppHeader 
+        primaryColor={token.colorPrimary} 
+        onLogout={handleLogout} 
+      />
+      
       <Layout>
-        <Sider
-          width={200}
-          collapsible
+        <SideMenu
+          currentView={currentView}
           collapsed={collapsed}
           onCollapse={(value) => setCollapsed(value)}
-        >
-          <Menu
-            mode="inline"
-            selectedKeys={[currentView]}
-            style={{ height: '100%', borderRight: 0 }}
-            items={[
-              {
-                key: 'list',
-                icon: <MedicineBoxOutlined />,
-                label: 'İlaç Listesi',
-                onClick: () => handleMenuClick('list'),
-              },
-              {
-                key: 'add',
-                icon: <PlusOutlined />,
-                label: 'İlaç Ekle',
-                onClick: () => handleMenuClick('add'),
-              },
-              {
-                key: 'report',
-                icon: <FileTextOutlined />,
-                label: 'Raporlar',
-                onClick: () => handleMenuClick('report'),
-              },
-            ]}
-          />
-        </Sider>
-        <Layout style={{ padding: '24px' }}>
-          <Content
-            style={{
-              padding: 24,
-              margin: 0,
-              background: 'white',
-              borderRadius: '8px',
-              minHeight: 280,
-            }}
-          >
-            {renderContent()}
-          </Content>
-        </Layout>
+          onMenuClick={handleMenuClick}
+        />
+        
+        <ContentWrapper>
+          {renderContent()}
+        </ContentWrapper>
       </Layout>
     </Layout>
   );
