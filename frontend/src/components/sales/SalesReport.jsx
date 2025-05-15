@@ -29,7 +29,6 @@ const SalesReport = () => {
   const [emailModalVisible, setEmailModalVisible] = useState(false);
   const [emailForm] = Form.useForm();
   const [sendingEmail, setSendingEmail] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -226,7 +225,6 @@ const SalesReport = () => {
 
   const openEmailModal = () => {
     setEmailModalVisible(true);
-    setEmailSent(false);
     emailForm.resetFields();
   };
 
@@ -239,10 +237,16 @@ const SalesReport = () => {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       message.success(`E-posta ${values.email} adresine başarıyla gönderildi`);
-      setEmailSent(true);
       
       // Başarılı olduktan sonra formu sıfırla
       emailForm.resetFields();
+      
+      // E-posta modalını kapat
+      setEmailModalVisible(false);
+      
+      // Rapor modalını da kapat
+      setReportModalVisible(false);
+      
     } catch (error) {
       message.error('E-posta gönderilirken bir hata oluştu');
       console.error('Error sending email:', error);
@@ -311,7 +315,6 @@ const SalesReport = () => {
         visible={emailModalVisible}
         form={emailForm}
         sendingEmail={sendingEmail}
-        emailSent={emailSent}
         onCancel={() => setEmailModalVisible(false)}
         onSend={handleSendEmail}
       />
