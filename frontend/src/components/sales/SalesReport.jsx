@@ -265,7 +265,6 @@ const SalesReport = () => {
         loading={loading}
         onRefresh={fetchData}
         onOpenReportModal={openReportModal}
-        onOpenEmailModal={openEmailModal}
       />
       
       <SalesReportFilters
@@ -305,6 +304,7 @@ const SalesReport = () => {
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}
         onCancel={() => setReportModalVisible(false)}
+        onSendEmail={openEmailModal}
       />
       
       <EmailModal

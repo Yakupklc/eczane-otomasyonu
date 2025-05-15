@@ -1,5 +1,5 @@
 import { Modal, Divider, Typography, Button } from 'antd';
-import { FilePdfOutlined, PrinterOutlined } from '@ant-design/icons';
+import { FilePdfOutlined, MailOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import SalesReportTable from './SalesReportTable';
 
@@ -13,7 +13,8 @@ const ReportModal = ({
   dateRange,
   selectedMonth,
   selectedYear,
-  onCancel
+  onCancel,
+  onSendEmail
 }) => {
   const getReportTitle = () => {
     switch (reportType) {
@@ -68,12 +69,12 @@ const ReportModal = ({
           Kapat
         </Button>,
         <Button
-          key="print"
+          key="email"
           type="primary"
-          icon={<PrinterOutlined />}
-          onClick={handlePrint}
+          icon={<MailOutlined />}
+          onClick={onSendEmail}
         >
-          Yazdır
+          E-posta Gönder
         </Button>
       ]}
     >
